@@ -4,11 +4,11 @@
     },
     "autoload": {
         "psr-4": {
-            "CDC:\\Loja": [
+            "CDC:\\Loja\\": [
                 "src/CDC/Loja",
                 "tests/CDC/Loja"
             ],
-            "CDC:\\Exemplos": [
+            "CDC:\\Exemplos\\": [
                 "src/CDC/Exemplos",
                 "tests/CDC/Exemplos"
             ]
