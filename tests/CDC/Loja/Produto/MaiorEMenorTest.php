@@ -14,18 +14,19 @@ class MaiorEMenorTest extends PHPUnit
     
     public function testOrdemDecrescente()
     {
+
         $carrinho = new CarrinhoDeCompras();
 
         $carrinho->adiciona(new Produto("Geladeira", 450.00));
         $carrinho->adiciona(new Produto("Liguidificador", 250.00));
         $carrinho->adiciona(new Produto("Jogo de pratos", 70.00));
 
-        $maiorMenor = new MaiorEMEnor();
+        $maiorMenor = new MaiorEMenor();
         
         $maiorMenor->encontra($carrinho);
 
         $this->assertEquals(
-            "Jogo de Pratos",
+            "Jogo de pratos",
             $maiorMenor->getMenor()->getNome()
         );
 
