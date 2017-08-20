@@ -17,8 +17,23 @@ class ConversorDeNumeroRomano
 
     public function converte(string $numeroEmRomano):int
     {
-        return isset($this->tabela[$numeroEmRomano])
-            ? $this->tabela[$numeroEmRomano]
+        $acumulador = 0;
+        $ultimoVizinhoDaDireita = 0;
+
+        for ($i=strlen($numeroEmRomano)-1; $i >=0; $i--) {
+            $numeroCorrente = $numeroEmRomano[$i];
+
+            $atual = isset($this->tabela[$numeroCorrente])
+            ? $this->tabela[$numeroCorrente]
             : 0;
+
+            $multiplicador = $atual < $ultimoVizinhoDaDireita ? -1 : 1;
+        
+            $acumulador += ($atual*$multiplicador);
+
+            $ultimoVizinhoDaDireita = $atual;
+        }
+
+        return $acumulador;
     }
 }
