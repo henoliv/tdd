@@ -50,10 +50,10 @@ class CarrinhoDeCompras
             return 0;
         }
 
-        $maiorValor = $this->getProdutos()[0]->getValor();
+        $maiorValor = $this->getProdutos()[0]->getValorUnitario();
         foreach ($this->getProdutos as $produto) {
-            if ($produto->getValor() > $maiorValor) {
-                $maiorValor = $produto->getValor();
+            if ($produto->getValorUnitario() > $maiorValor) {
+                $maiorValor = $produto->getValorUnitario();
             }
         }
 

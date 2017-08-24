@@ -5,7 +5,8 @@ namespace CDC\LOJA\PRODUTO;
 class Produto
 {
     private $nome;
-    private $valor;
+    private $valorUnitario;
+    private $quantidade;
 
     /**
      * Instancia um objeto do tipo pdoruto
@@ -13,10 +14,11 @@ class Produto
      * @param string $nome
      * @param float $valor
      */
-    public function __construct(string $nome, float $valor)
+    public function __construct(string $nome, float $valorUnitario, int $quantidade = 1)
     {
         $this->nome = $nome;
-        $this->valor = $valor;
+        $this->valorUnitario = $valorUnitario;
+        $this->quantidade = $quantidade;
     }
 
     /**
@@ -30,12 +32,32 @@ class Produto
     }
 
     /**
-     * Retorna o valor do produto
+     * Retorna o valor unitário do produto
      *
      * @return float
      */
-    public function getValor():float
+    public function getValorUnitario():float
     {
-        return $this->valor;
+        return $this->valorUnitario;
+    }
+
+    /**
+     * Retorna o valor do produto
+     *
+     * @return int
+     */
+    public function getQuantidade():int
+    {
+        return $this->quantidade;
+    }
+
+    /**
+     * Retorna o valor final
+     *
+     * @return float
+     */
+    public function getValorTotal():float
+    {
+        return $this->valorUnitario*$this->quantidade;
     }
 }
