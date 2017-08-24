@@ -4,7 +4,6 @@ namespace CDC\Loja\Carrinho;
 
 use CDC\Loja\Test\TestCase;
 use CDC\Loja\Carrinho\CarrinhoDeCompras;
-use CDC\Loja\Carrinho\MaiorPreco;
 use CDC\Loja\Produto\Produto;
 
 class MaiorPrecoTest extends TestCase
@@ -13,9 +12,7 @@ class MaiorPrecoTest extends TestCase
     {
         $carrinho = new CarrinhoDeCompras();
 
-        $algoritmo = new MaiorPreco();
-
-        $valor = $algoritmo->encontra($carrinho);
+        $valor = $carrinho->encontra();
 
         $this->assertEquals(0, $valor, null, 0.0001);
     }
@@ -26,9 +23,7 @@ class MaiorPrecoTest extends TestCase
 
         $carrinho->adiciona(new Produto("Geladeira", 900.00, 1));
 
-        $algoritmo = new MaiorPreco();
-
-        $valor = $algoritmo->encontra($carrinho);
+        $valor = $carrinho->encontra();
 
         $this->assertEquals(900.00, $valor, null, 0.0001);
     }
@@ -41,9 +36,7 @@ class MaiorPrecoTest extends TestCase
         $carrinho->adiciona(new Produto("Fogão", 1500.00, 1));
         $carrinho->adiciona(new Produto("Máquina de lavar", 750.00, 1));
 
-        $algoritmo = new MaiorPreco();
-
-        $valor = $algoritmo->encontra($carrinho);
+        $valor = $carrinho->encontra();
 
         $this->assertEquals(1500.00, $valor, null, 0.0001);
     }

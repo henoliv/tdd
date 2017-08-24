@@ -44,19 +44,20 @@ class CarrinhoDeCompras
      *
      * @return float
      */
-    public function maiorValor()
+    public function encontra()
     {
-        if (count($this.getItens()) === 0) {
+        if (count($this->getProdutos()) === 0) {
             return 0;
         }
-
-        $maiorValor = $this->getProdutos()[0]->getValorUnitario();
-        foreach ($this->getProdutos as $produto) {
-            if ($produto->getValorUnitario() > $maiorValor) {
-                $maiorValor = $produto->getValorUnitario();
-            }
+        
+        $maiorValor = $this->getProdutos()[0]->getValorTotal();
+        
+        foreach ($this->getProdutos() as $produto) {
+            $maiorValor = $produto->getValorTotal() > $maiorValor
+                ? $produto->getValorTotal()
+                : $maiorValor;
         }
-
+        
         return $maiorValor;
     }
 }
