@@ -8,35 +8,36 @@ use CDC\Loja\Produto\Produto;
 
 class MaiorPrecoTest extends TestCase
 {
+    private $carrinho;
+
+    protected function setUp()
+    {
+        $this->carrinho = new CarrinhoDeCompras();
+    }
+
     public function testDeveRetornarZeroSeCarrinhoVazio()
     {
-        $carrinho = new CarrinhoDeCompras();
-
-        $valor = $carrinho->encontra();
+        $valor = $this->carrinho->encontra();
 
         $this->assertEquals(0, $valor, null, 0.0001);
     }
 
     public function testDeveRetornarValorDoItemSeCarrinhoCom1Elemento()
     {
-        $carrinho = new CarrinhoDeCompras();
+        $this->carrinho->adiciona(new Produto("Geladeira", 900.00, 1));
 
-        $carrinho->adiciona(new Produto("Geladeira", 900.00, 1));
-
-        $valor = $carrinho->encontra();
+        $valor = $this->carrinho->encontra();
 
         $this->assertEquals(900.00, $valor, null, 0.0001);
     }
 
     public function testDeveRetornarValorDoItemSeCarrinhoComMuitosElementos()
     {
-        $carrinho = new CarrinhoDeCompras();
+        $this->carrinho->adiciona(new Produto("Geladeira", 900.00, 1));
+        $this->carrinho->adiciona(new Produto("Fogão", 1500.00, 1));
+        $this->carrinho->adiciona(new Produto("Máquina de lavar", 750.00, 1));
 
-        $carrinho->adiciona(new Produto("Geladeira", 900.00, 1));
-        $carrinho->adiciona(new Produto("Fogão", 1500.00, 1));
-        $carrinho->adiciona(new Produto("Máquina de lavar", 750.00, 1));
-
-        $valor = $carrinho->encontra();
+        $valor = $this->carrinho->encontra();
 
         $this->assertEquals(1500.00, $valor, null, 0.0001);
     }
