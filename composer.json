@@ -13,5 +13,8 @@
                 "tests/CDC/Exemplos"
             ]
         }
+    },
+    "scripts": {
+        "test": "phpunit --colors tests"
     }
 }

@@ -41,4 +41,44 @@ class MaiorPrecoTest extends TestCase
 
         $this->assertEquals(1500.00, $valor, null, 0.0001);
     }
+
+    
+    /**
+     * Testa a adição de produtos ao carrinho
+     * Este tipo de teste deve verificar a quantidade de produtos
+     * antes e depois da operação
+     *
+     * @return void
+     */
+    public function testDeveAdicionarItens()
+    {
+        # Garante que o carrinho está vazio
+        $this->assertEmpty($this->carrinho->getProdutos());
+
+        $produto = new Produto("Geladeira", 900.00, 1);
+        $this->carrinho->adiciona($produto);
+
+        $esperado = count($this->carrinho->getProdutos());
+
+        $this->assertEquals(1, $esperado);
+        $this->assertEquals($produto, $this->carrinho->getProdutos()[0]);
+    }
+    /**
+     * Testa o conteúdo de uma lista
+     * Este tipo de teste deve verificar a quantidade de produtos e seus valores
+     *
+     * @return void
+     */
+    public function testListaDeProdutos()
+    {
+        $lista = (new CarrinhoDeCompras())
+            ->adiciona(new Produto('Jogo de Jantar', 200.00, 1))
+            ->adiciona(new Produto('Jogo de Pratos', 100.00, 1));
+
+        $this->assertEquals(2, count($lista->getProdutos()));
+
+        # Testando apenas com o preço para simplificar, o conceito é testar tudo
+        $this->assertEquals(200.0, $lista->getProdutos()[0]->getValorUnitario());
+        $this->assertEquals(100.0, $lista->getProdutos()[1]->getValorUnitario());
+    }
 }
