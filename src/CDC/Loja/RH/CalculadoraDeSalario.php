@@ -2,19 +2,17 @@
 
 namespace CDC\Loja\RH;
 
+use CDC\Loja\RH\Cargo;
 use CDC\Loja\RH\Funcionario;
 
 class CalculadoraDeSalario
 {
     function calculaSalario(Funcionario $funcionario)
     {
-        if ($funcionario->getCargo() === TabelaCargos::DESENVOLVEDOR) {
-            if ($funcionario->getSalario() > 3000) {
-                return $funcionario->getSalario() * 0.8;
-            }
-            return $funcionario->getSalario() * 0.9;
-        }
+        $cargo = new Cargo($funcionario->getCargo());
+        
+        $classeDeCalculo = $cargo->getRegra();
 
-        return $funcionario->getSalario() * 0.85;
+        return (new $classeDeCalculo)->calcula($funcionario);
     }
 }

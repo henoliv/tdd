@@ -6,5 +6,5 @@ class TabelaCargos
 {
     const DESENVOLVEDOR = 1;
     const DBA = 2;
-    const Testador = 3;
+    const TESTADOR = 3;
 }
