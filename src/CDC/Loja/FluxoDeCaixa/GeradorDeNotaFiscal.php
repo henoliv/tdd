@@ -6,16 +6,17 @@ use CDC\Loja\FluxoDeCaixa\NotaFiscal;
 use CDC\Loja\FluxoDeCaixa\Pedido;
 use CDC\Loja\FluxoDeCaixa\NFDao;
 use CDC\Loja\FluxoDeCaixa\SAP;
-use DateTime;
+use CDC\Exemplos\RelogioDoSistema;
 
 class GeradorDeNotaFiscal
 {
     private $acoes;
+    private $relogio;
     
-    public function __construct()
+    public function __construct($acoes = [], RelogioDoSistema $relogio)
     {
-        $acoes = func_get_args();
-        $this->acoes = is_array($acoes) ? $acoes : [];
+        $this->acoes = $acoes;
+        $this->relogio = $relogio;
     }
 
     public function gera(Pedido $pedido)
@@ -23,9 +24,9 @@ class GeradorDeNotaFiscal
         $nf = new NotaFiscal(
             $pedido->getCliente(),
             $pedido->getValorTotal() * 0.94,
-            new DateTime
+            $this->relogio->hoje()
         );
-        
+
         foreach ($this->acoes as $acao) {
             $acao->executa($nf);
         }

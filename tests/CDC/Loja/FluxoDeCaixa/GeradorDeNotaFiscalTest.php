@@ -5,12 +5,13 @@ namespace CDC\Loja\FluxoDeCaixa;
 use CDC\Loja\Test\TestCase;
 use CDC\Loja\FluxoDeCaixa\GeradorDeNotaFiscal;
 use CDC\Loja\FluxoDeCaixa\Pedido;
+use CDC\Exemplos\RelogioDoSistema;
 
 class GeradorDeNotaFiscalTest extends TestCase
 {
     public function testDeveGerarNFComValorDeImpostoDescontado()
     {
-        $gerador = new GeradorDeNotaFiscal();
+        $gerador = new GeradorDeNotaFiscal([], new RelogioDoSistema());
         $pedido = new Pedido("Andre", 1000, 1);
 
         $nf = $gerador->gera($pedido);
@@ -34,7 +35,7 @@ class GeradorDeNotaFiscalTest extends TestCase
         );
         $acao2->shouldReceive("executa")->andReturn(true);
 
-        $gerador = new GeradorDeNotaFiscal($acao1, $acao2);
+        $gerador = new GeradorDeNotaFiscal([$acao1, $acao2], new RelogioDoSistema());
         $pedido = new Pedido("Andre", 1000, 1);
 
         $nf = $gerador->gera($pedido);
@@ -43,5 +44,20 @@ class GeradorDeNotaFiscalTest extends TestCase
         $this->assertTrue($acao2->executa($nf));
         $this->assertNotNull($nf);
         $this->assertInstanceOf("CDC\Loja\FluxoDeCaixa\NotaFiscal", $nf);
+    }
+
+    /**
+     * @covers CDC\Loja\FluxoDeCaixa\GeradorDeNotaFiscal::gera()
+     */
+    public function testDeveRetornarADataAtual()
+    {
+        
+        $relogio = new RelogioDoSistema();
+        $gerador = new GeradorDeNotaFiscal([], $relogio);
+        $pedido = new Pedido("Andre", 1000, 1);
+
+        $nf = $gerador->gera($pedido);
+        
+        $this->assertEquals($relogio->hoje(), $nf->getData());
     }
 }
