@@ -10,11 +10,12 @@ use DateTime;
 
 class GeradorDeNotaFiscal
 {
+    private $acoes;
     
-    public function __construct(NFDao $dao, SAP $sap)
+    public function __construct()
     {
-        $this->dao = $dao;
-        $this->sap = $sap;
+        $acoes = func_get_args();
+        $this->acoes = is_array($acoes) ? $acoes : [];
     }
 
     public function gera(Pedido $pedido)
@@ -24,11 +25,11 @@ class GeradorDeNotaFiscal
             $pedido->getValorTotal() * 0.94,
             new DateTime
         );
-
-        if ($this->dao->persiste($nf) && $this->sap->envia($nf)) {
-            return $nf;
+        
+        foreach ($this->acoes as $acao) {
+            $acao->executa($nf);
         }
-
-        return null;
+        
+        return $nf;
     }
 }
