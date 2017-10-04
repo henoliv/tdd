@@ -11,7 +11,10 @@ class GeradorDeNotaFiscalTest extends TestCase
 {
     public function testDeveGerarNFComValorDeImpostoDescontado()
     {
-        $gerador = new GeradorDeNotaFiscal([], new RelogioDoSistema());
+        $tabela = \Mockery::mock("CDC\Loja\Tributos\TabelaInterface");
+        $tabela->shouldReceive("paraValor")->with(1000.0)->andReturn(0.06);
+
+        $gerador = new GeradorDeNotaFiscal([], new RelogioDoSistema(), $tabela);
         $pedido = new Pedido("Andre", 1000, 1);
 
         $nf = $gerador->gera($pedido);
@@ -35,7 +38,10 @@ class GeradorDeNotaFiscalTest extends TestCase
         );
         $acao2->shouldReceive("executa")->andReturn(true);
 
-        $gerador = new GeradorDeNotaFiscal([$acao1, $acao2], new RelogioDoSistema());
+        $tabela = \Mockery::mock("CDC\Loja\Tributos\TabelaInterface");
+        $tabela->shouldReceive("paraValor")->with(1000.0)->andReturn(0.2);
+
+        $gerador = new GeradorDeNotaFiscal([$acao1, $acao2], new RelogioDoSistema(), $tabela);
         $pedido = new Pedido("Andre", 1000, 1);
 
         $nf = $gerador->gera($pedido);
@@ -51,13 +57,29 @@ class GeradorDeNotaFiscalTest extends TestCase
      */
     public function testDeveRetornarADataAtual()
     {
+
+        $tabela = \Mockery::mock("CDC\Loja\Tributos\TabelaInterface");
+        $tabela->shouldReceive("paraValor")->with(1000.0)->andReturn(0.2);
         
         $relogio = new RelogioDoSistema();
-        $gerador = new GeradorDeNotaFiscal([], $relogio);
+        $gerador = new GeradorDeNotaFiscal([], $relogio, $tabela);
         $pedido = new Pedido("Andre", 1000, 1);
 
         $nf = $gerador->gera($pedido);
-        
+
         $this->assertEquals($relogio->hoje(), $nf->getData());
+    }
+
+    public function testDeveConsultarATabelaParaCalcularValor()
+    {
+        $tabela = \Mockery::mock("CDC\Loja\Tributos\TabelaInterface");
+        $tabela->shouldReceive("paraValor")->with(1000.0)->andReturn(0.2);
+
+        $gerador = new GeradorDeNotaFiscal([], new RelogioDoSistema(), $tabela);
+        $pedido = new Pedido("Andre", 1000, 1);
+
+        $nf = $gerador->gera($pedido);
+
+        $this->assertEquals(1000*0.8, $nf->getValor(), null, 0.00001);
     }
 }
