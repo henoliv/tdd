@@ -4,7 +4,7 @@ namespace CDC\Loja\FluxoDeCaixa;
 
 class SAP
 {
-    public function envia(NotaFiscal $nf)
+    public function envia()
     {
         # Envia a nota fiscal
     }
