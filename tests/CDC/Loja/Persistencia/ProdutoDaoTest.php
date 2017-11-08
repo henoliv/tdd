@@ -61,4 +61,25 @@ class ProdutoDaoTest extends TestCase
         );
         $this->assertEquals($produto->getStatus(), $salvo['status']);
     }
+
+    public function testDeveFiltrarAtivos()
+    {
+        # $Instancia o objeto de manipulação de dados do produto
+        $produtoDao = new ProdutoDao($this->conexao);
+        
+        # Instancia o produto a ser inserido
+        $ativo = new Produto("Geladeira", 150.0);
+        $inativo = new Produto("Geladeira", 180.0);
+
+        $inativo->inativa();
+        
+        # insere o produto
+        $conexao = $produtoDao->adiciona($ativo);
+        $conexao = $produtoDao->adiciona($inativo);
+
+        $ativos = $produtoDao->ativos();
+
+        $this->assertEquals(1, count($ativos));
+        $this->assertEquals(150.0, $ativos[0]['valor_unitario']);
+    }
 }

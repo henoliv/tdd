@@ -76,4 +76,14 @@ class Produto
     {
         return $this->status;
     }
+
+    /**
+     * Retorna o status do produto
+     *
+     * @return int
+     */
+    public function inativa()
+    {
+        $this->status = 0;
+    }
 }
