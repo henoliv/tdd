@@ -14,11 +14,17 @@ class Produto
      * @param string $nome
      * @param float $valor
      */
-    public function __construct(string $nome, float $valorUnitario, int $quantidade = 1)
-    {
+    public function __construct(
+        string $nome,
+        float $valorUnitario,
+        int $quantidade = 1,
+        int $status = 1
+    ) {
+    
         $this->nome = $nome;
         $this->valorUnitario = $valorUnitario;
         $this->quantidade = $quantidade;
+        $this->status = $status;
     }
 
     /**
@@ -59,5 +65,15 @@ class Produto
     public function getValorTotal():float
     {
         return $this->valorUnitario*$this->quantidade;
+    }
+
+    /**
+     * Retorna o status do produto
+     *
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
     }
 }
